@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useLang } from "@/context/LangContext";
 import { navItems } from "@/lib/nav";
-import { vocab } from "@/lib/vocab";
+import { useVocab } from "@/hooks/useVocab";
 import PageHeader from "@/components/PageHeader";
 
 export default function Home() {
   const { t } = useLang();
-
+  const { entries } = useVocab();
   const sections = navItems.filter((item) => item.href !== "/");
 
   return (
@@ -17,7 +17,7 @@ export default function Home() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {sections.map((item) => {
-          const count = item.href === "/vocabulaire" ? vocab.length : 0;
+          const count = item.href === "/vocabulaire" ? entries.length : 0;
           return (
             <Link
               key={item.href}

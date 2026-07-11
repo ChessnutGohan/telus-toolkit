@@ -2,6 +2,8 @@
 
 import type { VocabEntry } from "@/lib/vocab";
 import { useLang } from "@/context/LangContext";
+import { useAuth } from "@/context/AuthContext";
+import { isAdmin } from "@/lib/auth";
 
 const categoryColor: Record<VocabEntry["category"], string> = {
   duration: "bg-relay",
@@ -11,11 +13,13 @@ const categoryColor: Record<VocabEntry["category"], string> = {
   contact: "bg-relay",
 };
 
-export default function VocabCard({ entry }: { entry: VocabEntry }) {
+export default function VocabCard({ entry, onDelete }: { entry: VocabEntry; onDelete?: (id: string) => void }) {
   const { lang } = useLang();
   const term = lang === "fr" ? entry.termFr : entry.termEn;
   const crossTerm = lang === "fr" ? entry.termEn : entry.termFr;
   const def = lang === "fr" ? entry.defFr : entry.defEn;
+  const { user } = useAuth();
+  const admin = isAdmin(user ?? "");
 
   return (
     <div className="group relative rounded-lg border border-line bg-surface p-4 transition-colors hover:border-relay/60">
@@ -46,6 +50,15 @@ export default function VocabCard({ entry }: { entry: VocabEntry }) {
         <p className="mt-2 rounded border border-amber/30 bg-amber/5 px-2 py-1 font-body text-[11px] text-amber">
           {entry.note}
         </p>
+      )}
+
+      {admin && (
+        <button
+          onClick={() => onDelete?.(entry.id)}
+          className="mt-2 font-mono text-[10px] text-red-400 hover:text-red-300 transition-colors"
+        >
+          x supprimer
+        </button>
       )}
     </div>
   );

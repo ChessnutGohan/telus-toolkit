@@ -85,7 +85,7 @@ export default function VocabulairePage() {
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((entry) => (
-                <VocabCard key={entry.id} entry={entry} />
+                <VocabCard key={entry.id} entry={entry} onDelete={deleteEntry} />
               ))}
             </div>
           )}
