@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { getLayout } from "@/lib/mangaLayout";
 import type { VocabEntry } from "@/lib/vocab";
 
@@ -12,6 +12,11 @@ interface Props {
 export default function MangaPanelGrid({ entries, layoutSeed }: Props) {
   const layout = getLayout(entries.length, layoutSeed);
 
+  const [flipped, setFlipped] = useState<Record<string, boolean>>({});
+
+  const toggleFlip = (id: string) => {
+    setFlipped(prev => ({ ...prev, [id]: !prev[id] }));
+  }
   return (
     <div
       className="w-full"
@@ -31,73 +36,104 @@ export default function MangaPanelGrid({ entries, layoutSeed }: Props) {
       {layout.areas.map((area, i) => {
         const entry = entries[i];
         if (!entry) return null;
-
-        return (
-          <div
-            key={area}
-            style={{
-              gridArea: area,
+          return (
+            <div
+              key={area}
+              className={`flip-card ${flipped[entry.id] ? 'flipped' : ''}`}
+              onClick={() => toggleFlip(entry.id)}
+              style={{
+                gridArea: area,
+                overflow: "hidden",
+                position: "relative",
+                transform: `rotate(${layout.rotations[i] ?? 0}deg)`,
+              }}
+            >
+            <div className="flip-card-inner" style={{
               background: "#fff",
               backgroundImage: "radial-gradient(#00000012 1px, transparent 1px)",
               backgroundSize: "8px 8px",
-              transform: `rotate(${layout.rotations[i] ?? 0}deg)`,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "12px",
-              textAlign: "center",
-              overflow: "hidden",
-              position: "relative",
-            }}
-          >
-            {/* Diagonal accent line — top right corner */}
-            <div style={{
-              position: "absolute",
-              top: 0, right: 0,
-              width: "40px", height: "4px",
-              background: "#000",
-              transform: "rotate(45deg) translate(8px, -8px)",
-              transformOrigin: "right top",
-            }} />
-
-            <h3 style={{
-              fontFamily: "'Caveat', cursive",
-              fontSize: "clamp(1rem, 3.5cqw, 2rem)",
-              fontWeight: 700,
-              color: "#000",
-              lineHeight: 1.1,
-              marginBottom: "6px",
             }}>
-              {entry.termFr}
-            </h3>
+              <div className="flip-card-front">
+                <h3 style={{
+                  fontFamily: "'Caveat', cursive",
+                  fontSize: "clamp(1rem, 2.5cqw, 2rem)",
+                  fontWeight: 700,
+                  color: "#000",
+                  lineHeight: 1.1,
+                  marginBottom: "6px",
+                }}>
+                  {entry.termFr}
+                </h3>
+                <p style={{
+                  fontFamily: "'Georgia', serif",
+                  fontSize: "clamp(0.65rem, 2cqw, 0.85rem)",
+                  color: "#222",
+                  fontStyle: "italic",
+                  lineHeight: 1.4,
+                  maxWidth: "90%",
+                }}>
+                  {entry.defFr}
+                </p>
+                <div style={{
+                  marginTop: "auto",
+                  paddingTop: "8px",
+                  borderTop: "1px solid #ccc",
+                  width: "100%",
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "clamp(0.55rem, 1.5cqw, 0.7rem)",
+                  color: "#444",
+                  fontWeight: 600,
+                }}>
+                  {entry.termEn}
+                </div>
+              </div>
 
-            <p style={{
-              fontFamily: "'Georgia', serif",
-              fontSize: "clamp(0.65rem, 2cqw, 0.85rem)",
-              color: "#222",
-              fontStyle: "italic",
-              lineHeight: 1.4,
-              maxWidth: "90%",
-            }}>
-              {entry.defFr}
-            </p>
-
-            <div style={{
-              marginTop: "auto",
-              paddingTop: "8px",
-              borderTop: "1px solid #ccc",
-              width: "100%",
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "clamp(0.55rem, 1.5cqw, 0.7rem)",
-              color: "#444",
-              fontWeight: 600,
-            }}>
-              {entry.termEn}
+              <div className="flip-card-back">
+                <span style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.65rem",
+                  color: "#888",
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  marginBottom: "8px",
+                }}>
+                  EN
+                </span>
+                <h3 style={{
+                  fontFamily: "'Caveat', cursive",
+                  fontSize: "clamp(1rem, 3.5cqw, 1.8rem)",
+                  fontWeight: 700,
+                  color: "#000",
+                  marginBottom: "8px",
+                }}>
+                  {entry.termEn}
+                </h3>
+                <p style={{
+                  fontFamily: "'Georgia', serif",
+                  fontSize: "clamp(0.65rem, 2cqw, 0.85rem)",
+                  color: "#333",
+                  fontStyle: "italic",
+                  lineHeight: 1.4,
+                  maxWidth: "90%",
+                }}>
+                  {entry.defEn}
+                </p>
+                <div style={{
+                  marginTop: "auto",
+                  paddingTop: "8px",
+                  borderTop: "1px solid #ccc",
+                  width: "100%",
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.6rem",
+                  color: "#888",
+                }}>
+                  Cliquer pour retoruner
+                </div>
             </div>
           </div>
-        );
-      })}
+        </div>
+      );
+    })}
     </div>
   );
 }

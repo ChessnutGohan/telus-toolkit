@@ -7,6 +7,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import LoginGate from "@/components/LoginGate";
 import Sidebar from "@/components/Sidebar";
 import MangaRootWrapper from "@/components/MangaRootWrapper";
+import PetalOverlay from "@/components/PetalOverlay";
 import { Caveat } from "next/font/google";
 
 const handwritten = Caveat({
@@ -73,6 +74,7 @@ export default function RootLayout({
                     </div>
                   </main>
                 </div>
+                <PetalOverlay />
               </ThemeProvider>
             </LangProvider>
           </LoginGate>
