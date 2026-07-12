@@ -9,7 +9,7 @@ import PageHeader from "@/components/PageHeader";
 import VocabCard from "@/components/VocabCard";
 import MangaPanelGrid from "@/components/MangaPanelGrid";
 import AddVocabForm from "@/components/AddVocabForm";
-
+import { useMangaPagination } from "@/hooks/useMangaPagination";
 
 export default function VocabulairePage() {
   const { entries, loading, error, addEntry, deleteEntry } = useVocab();
@@ -20,7 +20,7 @@ export default function VocabulairePage() {
   const [query, setQuery] = useState("");
 
   const { mangaMode } = useTheme();
-  const [activeLayout, setActiveLayout] = useState(0);
+  const [layoutSeed, setLayoutSeed] = useState(0);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -34,6 +34,34 @@ export default function VocabulairePage() {
       );
     });
   }, [query, lang, entries]);
+
+  const {
+    currentEntries,
+    page,
+    totalPages,
+    nextPage,
+    prevPage,
+    isFirst,
+    isLast,
+  } = useMangaPagination(filtered);
+
+  const [flipping, setFlipping] = useState(false);
+
+  const handleNext = () => {
+    setFlipping(true);
+    setTimeout(() => {
+      nextPage();
+      setFlipping(false);
+    }, 200);
+  }
+
+  const handlePrev = () => {
+    setFlipping(true);
+    setTimeout(() => {
+      prevPage()
+      setFlipping(false);
+    }, 200);
+  };
 
   return (
     <div>
@@ -73,7 +101,7 @@ export default function VocabulairePage() {
         <div>
           {mangaMode && (
             <button
-              onClick={() => setActiveLayout((prev) => (prev + 1) % 4)}
+              onClick={() => setLayoutSeed((prev) => (prev + 1))}
               className="mb-4 px-6 py-3 bg-black text-white font-bold uppercase border-[4px] border-black shadow-[4px_4px_0_0_rgba(0,0,0,0.2)]"
               style={{ transform: "rotate(-1deg)" }}
             >
@@ -81,7 +109,42 @@ export default function VocabulairePage() {
             </button>
           )}
           {mangaMode ? (
-            <MangaPanelGrid entries={filtered} activeLayout={activeLayout} />
+            <div>
+              <div className="relative">
+                <div className={ flipping ? "manga-page-flip" : ""}>
+                  <MangaPanelGrid entries={currentEntries} layoutSeed={layoutSeed + page * 7} />
+                </div>
+              
+                <div
+                  onClick={handleNext}
+                  className="absolute left-0 top-0 w-16 h-full cursor-pointer z-10 flex items-center justify-start pl-2 opacity-0 hover:opacity-100 transition-opacity"
+                >
+                  <span className="font-display text-3xl text-black" style={{ fontFamily: "var(--font-hand)" }}>←</span>
+                </div>
+
+                <div
+                    onClick={handlePrev}
+                    className="absolute right-0 top-0 w-16 h-full cursor-pointer z-10 flex items-center justify-end pr-2 opacity-0 hover:opacity-100 transition-opacity"
+                  >
+                    <span className="font-display text-3xl text-black" style={{ fontFamily: "var(--font-hand)" }}>→</span>
+                </div>
+            </div>
+                <div className="flex items-center justify-between mt-6 px-2">
+                  <span className="font-mono text-xs text-muted">
+                    {page + 1} / {totalPages}
+                  </span>
+                  {!isFirst && (
+                    <span className="font-display text-sm text-black italic" style={{ fontFamily: "var(--font-hand)" }}>
+                      ← Autres mots
+                    </span>
+                  )}
+                  {isLast && (
+                    <span className="font-display text-sm text-black italic" style={{ fontFamily: "var(--font-hand)" }}>
+                      Fin! ✓
+                    </span>
+                  )}
+                </div>
+              </div>
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((entry) => (
@@ -94,3 +157,4 @@ export default function VocabulairePage() {
     </div>
   );
 }
+
