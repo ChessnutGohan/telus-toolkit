@@ -187,5 +187,26 @@ export const scriptLines: ScriptLine[] = [
     speaker: "agent",
     phase: "closing",
     text: "FR: Je vous souhaite une excellente journée. Au revoir.\nEN: I wish you an excellent day. Goodbye.",
-  }
+  },
+  {
+    id: "bridge-001",
+    speaker: "agent",
+    phase: "troubleshooting",
+    text: "FR: Laissez-moi vérifier cela pour vous.\nEN: Let me look into that for you.",
+    note: "Bridge between discovery and action — buys you time to check the system.",
+  },
+  {
+    id: "hold-return-001", 
+    speaker: "agent",
+    phase: "hold",
+    text: "FR: Merci pour votre patience. J'ai trouvé la solution.\nEN: Thank you for your patience. I have found the solution.",
+    note: "Use immediately after returning from hold with an answer.",
+  },
+  {
+    id: "resolution-001",
+    speaker: "agent",
+    phase: "closing",
+    text: "FR: J'ai bien résolu votre problème. Voici ce que j'ai fait : [ACTION].\nEN: I have resolved your issue. Here is what I did: [ACTION].",
+    note: "Always confirm what was done before closing.",
+  },
 ];
