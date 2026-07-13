@@ -4,7 +4,6 @@ import "./globals.css";
 import { LangProvider } from "@/context/LangContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
-import LoginGate from "@/components/LoginGate";
 import Sidebar from "@/components/Sidebar";
 import MangaRootWrapper from "@/components/MangaRootWrapper";
 import PetalOverlay from "@/components/PetalOverlay";
@@ -61,7 +60,6 @@ export default function RootLayout({
           </defs>
         </svg>
         <AuthProvider>
-          <LoginGate>
             <LangProvider>
               <ThemeProvider>
                 <div className="flex min-h-screen flex-col md:flex-row">
@@ -77,7 +75,6 @@ export default function RootLayout({
                 <PetalOverlay />
               </ThemeProvider>
             </LangProvider>
-          </LoginGate>
         </AuthProvider>
       </body>
     </html>

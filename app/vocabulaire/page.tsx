@@ -9,12 +9,14 @@ import PageHeader from "@/components/PageHeader";
 import VocabCard from "@/components/VocabCard";
 import MangaPanelGrid from "@/components/MangaPanelGrid";
 import AddVocabForm from "@/components/AddVocabForm";
+import BatchVocabImporter from "@/components/BatchVocabImporter";
 import { useMangaPagination } from "@/hooks/useMangaPagination";
 
 export default function VocabulairePage() {
   const { entries, loading, error, addEntry, deleteEntry } = useVocab();
   const [showForm, setShowForm] = useState(false);
   const { user } = useAuth();
+  const [showBatch, setShowBatch] = useState(false); 
 
   const { t, lang } = useLang();
   const [query, setQuery] = useState("");
@@ -88,13 +90,20 @@ export default function VocabulairePage() {
         className="mb-6 w-full max-w-sm rounded-md border border-line bg-surface px-3 py-2 font-body text-sm text-ivory placeholder:text-muted focus:border-relay focus:outline-none"
       />
       <button
-        onClick={() => setShowForm(true)}
+        onClick={() => user ? setShowForm(true) : alert("Connectez-vous pour ajouter un terme") }
         className="ml-4 bg-signal text-ink font-mono text-xs font-semibold px-4 hover:bg-signal/80 transition-colors"
         >
-        + AJOUTER
-        </button>
+        {user ? "+ AJOUTER" : "🔒 AJOUTER"}
+      </button>
+      <button 
+        onClick={() => user ? setShowBatch(true) : alert ("Connectez-vous d'abord")}
+        className="ml-2 bordor border-signal text-signal font-mono text-xs font-semibold px-4 py-2 hover:bg-signal/10 transition-colors0"
+      >
+        ⚡ IMPORTER
+      </button>
       </div>
       {showForm && <AddVocabForm onClose={() => setShowForm(false)} />}
+      {showBatch && <BatchVocabImporter onClose={() => setShowBatch(false)} />}
       {filtered.length === 0 ? (
         <p className="font-body text-sm text-muted">{t.noResults}</p>
       ) : (

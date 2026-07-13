@@ -21,7 +21,7 @@ export const dictionary = {
     emptyTitle: "Section vide pour l'instant",
     emptyBody:
       "Cette section n'a pas encore de contenu. On la remplira à la prochaine étape — structure prête, branchement à venir.",
-    vocabTitle: "Vocabulaire relatif aux contrats",
+    vocabTitle: "Vocabulaire pour les appels",
     vocabLede:
       "Termes clés à connaître en appel, avec leur équivalent anglais. Modifie ou ajoute des entrées au fil de tes scripts.",
     searchPlaceholder: "Chercher un terme…",
@@ -59,7 +59,7 @@ export const dictionary = {
     related: "See also",
     langToggleLabel: "Language",
     footerNote:
-      "Draft v0.1 — base structure ready for upcoming script branching.",
+      "Draft v2 - ready structure for future script branching andinitial build for gemini integration and tweaks.",
   },
 } as const;
 
