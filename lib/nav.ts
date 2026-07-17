@@ -15,5 +15,5 @@ export const navItems: NavItem[] = [
   { href: "/technologies", labelKey: "navTechnologies", code: "04", ready: false },
   { href: "/provinces", labelKey: "navProvinces", code: "05", ready: false },
   { href: "/code-postal", labelKey: "navCodePostal", code: "06", ready: false },
-  { href: "/dictee", labelKey: "navDictee", code: "07", ready: false },
+  { href: "/dictee", labelKey: "navDictee", code: "07", ready: true },
 ];
