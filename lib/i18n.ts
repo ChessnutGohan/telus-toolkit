@@ -11,6 +11,7 @@ export const dictionary = {
     navTechnologies: "Technologies",
     navProvinces: "Provinces",
     navCodePostal: "Code postal",
+    navDictee: "Dictée",
     statusLive: "Session active",
     homeTitle: "Tableau de bord",
     homeLede:
@@ -41,6 +42,7 @@ export const dictionary = {
     navTechnologies: "Technologies",
     navProvinces: "Provinces",
     navCodePostal: "Postal Code",
+    navDictee: "Dictation",
     statusLive: "Session live",
     homeTitle: "Dashboard",
     homeLede:
