@@ -4,6 +4,7 @@ import "./globals.css";
 import { LangProvider } from "@/context/LangContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
+import  LoginGate  from "@/components/LoginGate";
 import Sidebar from "@/components/Sidebar";
 import MangaRootWrapper from "@/components/MangaRootWrapper";
 import PetalOverlay from "@/components/PetalOverlay";
@@ -66,9 +67,11 @@ export default function RootLayout({
                   <Sidebar />
                   <main className="flex-1 bg-dot-grid [background-size:16px_16px]">
                     <div className="mx-auto max-w-5xl px-5 py-8 md:px-10 md:py-12">
+                      <LoginGate>
                       <MangaRootWrapper>
                         {children}
                       </MangaRootWrapper>
+                      </LoginGate>
                     </div>
                   </main>
                 </div>
