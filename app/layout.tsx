@@ -60,7 +60,7 @@ export default function RootLayout({
             </filter>
           </defs>
         </svg>
-        <AuthProvider>
+        {/*<AuthProvider>*/}
             <LangProvider>
               <ThemeProvider>
                 <div className="flex min-h-screen flex-col md:flex-row">
@@ -78,7 +78,7 @@ export default function RootLayout({
                 <PetalOverlay />
               </ThemeProvider>
             </LangProvider>
-        </AuthProvider>
+        {/*</AuthProvider>*/}
       </body>
     </html>
   );
